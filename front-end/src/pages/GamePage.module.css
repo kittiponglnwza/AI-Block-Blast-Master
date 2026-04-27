@@ -1,59 +1,81 @@
+/* ── GAME PAGE — CREAM MINIMAL ── */
 .page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 16px;
+  gap: 16px;
+  padding: 16px 20px 40px;
   min-height: calc(100vh - 52px);
 }
 
+/* ── SCORE BAR ── */
 .scoreRow {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 760px;
 }
 
 .stat {
-  background: #f0f2ff;
+  background: #faf9f6;
+  border: 1px solid #e8e4dc;
   border-radius: 12px;
-  padding: 8px 20px;
+  padding: 8px 18px;
   text-align: center;
-  min-width: 80px;
+  min-width: 76px;
 }
 
 .sl {
   display: block;
-  font-size: 11px;
-  color: #9e9bbf;
+  font-size: 9px;
+  color: #b0aa9e;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+  margin-bottom: 2px;
 }
 
 .sv {
   display: block;
   font-size: 22px;
   font-weight: 700;
-  color: #2d2b6e;
+  line-height: 1;
 }
 
-.status {
-  font-size: 13px;
-  color: #7e7cbf;
-  min-height: 18px;
-  text-align: center;
+.statusPill {
+  flex: 1;
+  font-size: 12px;
+  color: #b0aa9e;
+  text-align: right;
+  padding-right: 4px;
 }
 
+/* ── MAIN ROW: board left, panel right ── */
+.mainRow {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 760px;
+}
+
+/* ── BOARD ── */
 .boardWrap {
-  background: #fff;
-  border-radius: 18px;
-  padding: 12px;
-  border: 1.5px solid #dde1f7;
-  box-shadow: 0 2px 16px rgba(92,107,192,0.08);
+  background: #faf9f6;
+  border-radius: 16px;
+  padding: 10px;
+  border: 1px solid #e8e4dc;
+  flex-shrink: 0;
 }
 
 .board {
   display: grid;
   grid-template-columns: repeat(8, 44px);
   gap: 3px;
+  background: #c8c2b8;
+  border-radius: 10px;
+  padding: 6px;
 }
 
 .cell {
@@ -61,121 +83,166 @@
   height: 44px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.06s;
+  transition: filter 0.06s, transform 0.06s;
+}
+.cell:hover { filter: brightness(0.92); }
+
+/* ── RIGHT PANEL ── */
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  min-width: 140px;
 }
 
+.trayLabel {
+  font-size: 10px;
+  color: #b0aa9e;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+/* ── TRAY: vertical stack ── */
 .tray {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .slot {
-  width: 100px;
-  height: 100px;
-  background: #f5f6ff;
-  border-radius: 14px;
-  border: 2px solid transparent;
+  background: #faf9f6;
+  border-radius: 12px;
+  border: 1.5px solid #e8e4dc;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: border-color 0.12s;
+  transition: all 0.15s;
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+}
+.slot:hover { border-color: #c8c4bc; background: #f5f2ee; }
+.slotActive { border-color: #2a2520 !important; background: #f5f2ee !important; }
+.slotUsed { opacity: 0.25; cursor: default; }
+.slotEmpty { font-size: 18px; color: #c8c4bc; }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: #e8e4dc;
+  width: 100%;
 }
 
-.slot:hover { border-color: #9e9bbf; }
-.slotActive { border-color: #5c6bc0 !important; }
-.slotUsed { opacity: 0.3; cursor: default; }
-
-.slotEmpty {
-  font-size: 22px;
-  color: #5c6bc0;
-}
-
-.btnRow {
+/* ── BUTTON COLUMN ── */
+.btnCol {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .btnAI {
-  padding: 11px 30px;
-  border-radius: 50px;
-  font-size: 14px;
+  width: 100%;
+  padding: 11px;
+  border-radius: 99px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  border: 2px solid #5c6bc0;
+  border: 1.5px solid #2a2520;
   background: #fff;
-  color: #5c6bc0;
-  transition: background 0.15s;
+  color: #2a2520;
+  transition: all 0.12s;
+  letter-spacing: 0.3px;
 }
-.btnAI:hover { background: #f0f2ff; }
-.btnAI:disabled { opacity: 0.4; cursor: default; }
+.btnAI:hover { background: #f5f2ee; }
+.btnAI:disabled { opacity: 0.3; cursor: default; }
 
 .btnApply {
-  padding: 11px 30px;
-  border-radius: 50px;
-  font-size: 14px;
+  width: 100%;
+  padding: 11px;
+  border-radius: 99px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   border: none;
-  background: linear-gradient(135deg, #ffa726, #ff7043);
+  background: #c8704a;
   color: #fff;
-  transition: opacity 0.15s;
+  transition: all 0.12s;
+  letter-spacing: 0.3px;
 }
-.btnApply:hover { opacity: 0.88; }
+.btnApply:hover { background: #b5603c; }
 
 .btnNew {
-  padding: 11px 28px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 700;
+  width: 100%;
+  padding: 11px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  border: 2px solid #dde1f7;
+  border: 1px solid #e0dbd3;
   background: #fff;
-  color: #9e9bbf;
-  transition: background 0.15s;
+  color: #8c8880;
+  transition: all 0.12s;
 }
-.btnNew:hover { background: #f5f6ff; }
+.btnNew:hover { background: #f5f2ee; color: #4a4540; }
 
+/* ── GAME OVER ── */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(42, 37, 32, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
+  backdrop-filter: blur(4px);
 }
 
 .gameOverBox {
-  background: #fff;
-  border-radius: 22px;
-  padding: 36px 48px;
+  background: #faf9f6;
+  border: 1px solid #e0dbd3;
+  border-radius: 20px;
+  padding: 40px 52px;
   text-align: center;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 48px rgba(42,37,32,0.14);
 }
 
 .goTitle {
-  font-size: 32px;
-  font-weight: 800;
-  color: #2d2b6e;
-  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2a2520;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
 }
 
 .goScore {
-  font-size: 20px;
-  color: #5c6bc0;
-  margin-bottom: 20px;
+  font-size: 18px;
+  color: #c8704a;
+  font-weight: 600;
+  margin-bottom: 22px;
 }
 
 .goBtn {
   padding: 12px 40px;
-  border-radius: 50px;
-  font-size: 15px;
+  border-radius: 99px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   border: none;
-  background: linear-gradient(135deg, #5c6bc0, #7e57c2);
-  color: #fff;
+  background: #2a2520;
+  color: #faf9f6;
+  transition: all 0.12s;
+  letter-spacing: 0.5px;
+}
+.goBtn:hover { background: #3d3830; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .mainRow { flex-direction: column; align-items: center; }
+  .tray { flex-direction: row; }
+  .slot { width: 100px; height: 100px; }
+  .btnCol { flex-direction: row; flex-wrap: wrap; }
+  .btnAI, .btnApply, .btnNew { width: auto; padding: 11px 20px; }
 }
