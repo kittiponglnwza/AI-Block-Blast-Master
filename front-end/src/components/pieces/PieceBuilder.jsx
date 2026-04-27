@@ -92,7 +92,7 @@ const PieceBuilder = ({ pieceIdx }) => {
                 onClick={() => applyPreset(preset)}
                 title={preset.name}
               >
-                <ShapeThumb cells={preset.cells} color={isActive ? piece.color : '#6b6490'} size={34} />
+                <ShapeThumb cells={preset.cells} color={isActive ? piece.color : '#6b6490'} size={28} />
               </button>
             );
           })}

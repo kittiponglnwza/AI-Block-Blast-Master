@@ -45,11 +45,11 @@
 .piece-builder {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   background: var(--surface, #131120);
   border: 1px solid var(--border, #2a2545);
   border-radius: 12px;
-  padding: 12px;
+  padding: 10px 8px;
 }
 .piece-builder-header {
   display: flex;
@@ -146,14 +146,14 @@
 /* ─── Preset Grid ─── */
 .preset-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
 }
 .preset-btn {
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(61,55,96,0.4);
-  border-radius: 6px;
-  padding: 3px;
+  border-radius: 5px;
+  padding: 2px;
   cursor: pointer;
   display: flex;
   align-items: center;

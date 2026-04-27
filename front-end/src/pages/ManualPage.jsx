@@ -101,7 +101,7 @@ const ManualPage = () => {
       </div>
 
       {/* ─── Piece Builders ─── */}
-      <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', width: '100%' }}>
         {[0, 1, 2].map((i) => (
           <PieceBuilder key={i} pieceIdx={i} />
         ))}
