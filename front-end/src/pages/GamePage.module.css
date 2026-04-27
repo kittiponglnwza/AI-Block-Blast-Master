@@ -1,0 +1,181 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  min-height: calc(100vh - 52px);
+}
+
+.scoreRow {
+  display: flex;
+  gap: 10px;
+}
+
+.stat {
+  background: #f0f2ff;
+  border-radius: 12px;
+  padding: 8px 20px;
+  text-align: center;
+  min-width: 80px;
+}
+
+.sl {
+  display: block;
+  font-size: 11px;
+  color: #9e9bbf;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sv {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2d2b6e;
+}
+
+.status {
+  font-size: 13px;
+  color: #7e7cbf;
+  min-height: 18px;
+  text-align: center;
+}
+
+.boardWrap {
+  background: #fff;
+  border-radius: 18px;
+  padding: 12px;
+  border: 1.5px solid #dde1f7;
+  box-shadow: 0 2px 16px rgba(92,107,192,0.08);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 44px);
+  gap: 3px;
+}
+
+.cell {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.06s;
+}
+
+.tray {
+  display: flex;
+  gap: 12px;
+}
+
+.slot {
+  width: 100px;
+  height: 100px;
+  background: #f5f6ff;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.12s;
+}
+
+.slot:hover { border-color: #9e9bbf; }
+.slotActive { border-color: #5c6bc0 !important; }
+.slotUsed { opacity: 0.3; cursor: default; }
+
+.slotEmpty {
+  font-size: 22px;
+  color: #5c6bc0;
+}
+
+.btnRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnAI {
+  padding: 11px 30px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid #5c6bc0;
+  background: #fff;
+  color: #5c6bc0;
+  transition: background 0.15s;
+}
+.btnAI:hover { background: #f0f2ff; }
+.btnAI:disabled { opacity: 0.4; cursor: default; }
+
+.btnApply {
+  padding: 11px 30px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, #ffa726, #ff7043);
+  color: #fff;
+  transition: opacity 0.15s;
+}
+.btnApply:hover { opacity: 0.88; }
+
+.btnNew {
+  padding: 11px 28px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid #dde1f7;
+  background: #fff;
+  color: #9e9bbf;
+  transition: background 0.15s;
+}
+.btnNew:hover { background: #f5f6ff; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.gameOverBox {
+  background: #fff;
+  border-radius: 22px;
+  padding: 36px 48px;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+}
+
+.goTitle {
+  font-size: 32px;
+  font-weight: 800;
+  color: #2d2b6e;
+  margin-bottom: 8px;
+}
+
+.goScore {
+  font-size: 20px;
+  color: #5c6bc0;
+  margin-bottom: 20px;
+}
+
+.goBtn {
+  padding: 12px 40px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, #5c6bc0, #7e57c2);
+  color: #fff;
+}

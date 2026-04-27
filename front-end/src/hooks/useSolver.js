@@ -2,9 +2,16 @@ import { useBoardStore } from '../store/boardStore'
 import { usePiecesStore } from '../store/piecesStore'
 import { useScoreStore } from '../store/scoreStore'
 import { solve } from '../solver/engine'
-import { placeOnBoard, clearLines } from '../solver/boardUtils'
-import { cloneBoard } from '../solver/boardUtils'
+import { placeOnBoard, clearLines, cloneBoard, canPlace } from '../solver/boardUtils'
 import { scoreBoard } from '../solver/heuristic'
+
+// normalize piece cells ก่อนส่งให้ solver (เผื่อวาดจากตาราง 5×5)
+const normalizePiece = (piece) => {
+  if (!piece || piece.cells.length === 0) return piece
+  const minR = Math.min(...piece.cells.map(([r]) => r))
+  const minC = Math.min(...piece.cells.map(([, c]) => c))
+  return { cells: piece.cells.map(([r, c]) => [r - minR, c - minC]) }
+}
 
 export const useSolver = () => {
   const { board, setBoard } = useBoardStore()
@@ -12,7 +19,8 @@ export const useSolver = () => {
   const { addScore, setStatus } = useScoreStore()
 
   const handleSolve = async () => {
-    const active = pieces.filter((p) => p && p.cells && p.cells.length > 0)
+    const normalizedPieces = pieces.map(normalizePiece)
+    const active = normalizedPieces.filter((p) => p && p.cells && p.cells.length > 0)
     if (active.length === 0) {
       setStatus('กรุณาวาดชิ้นส่วนก่อน (อย่างน้อย 1 ชิ้น)')
       return
@@ -21,7 +29,7 @@ export const useSolver = () => {
     setStatus('กำลังคำนวณ...')
     await new Promise((r) => setTimeout(r, 30))
 
-    const solution = solve(board, pieces)
+    const solution = solve(board, normalizedPieces)
     if (!solution) {
       setStatus('ไม่สามารถวางชิ้นส่วนได้ ลองเคลียร์กระดานหรือเปลี่ยนชิ้นส่วน')
       return

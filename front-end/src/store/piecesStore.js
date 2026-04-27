@@ -9,6 +9,7 @@ export const usePiecesStore = create((set, get) => ({
 
   setSelectedPiece: (idx) => set({ selectedPieceIdx: idx }),
 
+  // ✅ ไม่ normalize — เก็บ coordinates ตามที่วาดในตาราง 5×5 จริงๆ
   togglePieceCell: (pieceIdx, row, col) => {
     const pieces = get().pieces.map((p, i) => {
       if (i !== pieceIdx) return p
@@ -19,15 +20,12 @@ export const usePiecesStore = create((set, get) => ({
       } else {
         cells.push([row, col])
       }
-      // normalize
-      if (cells.length === 0) return { cells: [] }
-      const minR = Math.min(...cells.map(([r]) => r))
-      const minC = Math.min(...cells.map(([, c]) => c))
-      return { cells: cells.map(([r, c]) => [r - minR, c - minC]) }
+      return { cells }
     })
     set({ pieces })
   },
 
+  // setPiece จาก preset: normalize ให้ top-left = 0,0 (presets ทำมาแล้ว)
   setPiece: (pieceIdx, cells) => {
     const pieces = get().pieces.map((p, i) =>
       i === pieceIdx ? { cells: cells.map((c) => [...c]) } : p
