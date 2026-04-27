@@ -1,25 +1,8 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body, #root {
-  height: 100%;
-  min-height: 100vh;
-}
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; min-height: 100vh; }
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: #e8eaf6;
-  color: #2d2b6e;
+  font-family: -apple-system, 'Helvetica Neue', sans-serif;
+  background: #f5f2ec;
+  color: #2a2520;
 }
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
-
-select {
-  font-family: inherit;
-}
+button { font-family: inherit; cursor: pointer; }

@@ -9,24 +9,19 @@ const PresetThumb = ({ preset, colorIdx, onClick }) => {
   const cells = preset.cells
   const maxR = Math.max(...cells.map(([r]) => r))
   const maxC = Math.max(...cells.map(([, c]) => c))
-  const rows = maxR + 1
-  const cols = maxC + 1
   const set = new Set(cells.map(([r, c]) => `${r},${c}`))
   const color = PIECE_COLORS[colorIdx]
   const size = 9
 
   return (
     <button className={styles.thumbBtn} onClick={onClick} title={preset.name}>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, ${size}px)`, gap: 1 }}>
-        {Array.from({ length: rows }, (_, r) =>
-          Array.from({ length: cols }, (_, c) => (
-            <div
-              key={`${r}-${c}`}
-              style={{
-                width: size, height: size, borderRadius: 2,
-                background: set.has(`${r},${c}`) ? color : 'transparent',
-              }}
-            />
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${maxC + 1}, ${size}px)`, gap: 1 }}>
+        {Array.from({ length: maxR + 1 }, (_, r) =>
+          Array.from({ length: maxC + 1 }, (_, c) => (
+            <div key={`${r}-${c}`} style={{
+              width: size, height: size, borderRadius: 2,
+              background: set.has(`${r},${c}`) ? color : 'transparent',
+            }} />
           ))
         )}
       </div>
@@ -53,7 +48,7 @@ const PieceEditor = () => {
                 <div
                   key={`${r}-${c}`}
                   className={styles.cell}
-                  style={{ background: active ? color : '#e8eaf6' }}
+                  style={{ background: active ? color : '#ede9e3', borderColor: active ? color : '#e0dbd3' }}
                   onClick={() => togglePieceCell(selectedPieceIdx, r, c)}
                 />
               )
@@ -61,28 +56,19 @@ const PieceEditor = () => {
           )}
         </div>
         <div className={styles.controls}>
-          <button
-            className={`${styles.ctrlBtn} ${showPresets ? styles.active : ''}`}
-            onClick={() => setShowPresets((v) => !v)}
-          >
+          <button className={`${styles.ctrlBtn} ${showPresets ? styles.active : ''}`}
+            onClick={() => setShowPresets(v => !v)}>
             {showPresets ? '✕ ปิด' : '⊞ Preset'}
           </button>
-          <button className={styles.ctrlBtn} onClick={() => clearPiece(selectedPieceIdx)}>
-            ✕ ล้าง
-          </button>
+          <button className={styles.ctrlBtn} onClick={() => clearPiece(selectedPieceIdx)}>✕ ล้าง</button>
         </div>
       </div>
-
       {showPresets && (
         <div className={styles.presetPanel}>
           <div className={styles.presetGrid}>
             {PRESETS.map((preset, i) => (
-              <PresetThumb
-                key={i}
-                preset={preset}
-                colorIdx={selectedPieceIdx}
-                onClick={() => { setPiece(selectedPieceIdx, preset.cells); setShowPresets(false) }}
-              />
+              <PresetThumb key={i} preset={preset} colorIdx={selectedPieceIdx}
+                onClick={() => { setPiece(selectedPieceIdx, preset.cells); setShowPresets(false) }} />
             ))}
           </div>
         </div>

@@ -1,40 +1,22 @@
 .slot {
-  background: #f0f2ff;
+  background: #fff;
   border-radius: 12px;
-  padding: 10px;
+  padding: 10px 8px;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  border: 2px solid transparent;
+  border: 1.5px solid #e8e4dc;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  transition: all 0.15s;
   min-height: 80px;
   justify-content: center;
 }
+.slot:hover { background: #f5f2ee; border-color: #c8c4bc; }
+.slot.active { border-color: #2a2520; background: #f5f2ee; }
 
-.slot:hover {
-  background: #e8eaff;
-}
+.label { font-size: 9px; color: #b0aa9e; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+.slot.active .label { color: #2a2520; }
 
-.slot.active {
-  border-color: #5c6bc0;
-  background: #eceeff;
-}
-
-.label {
-  font-size: 10px;
-  color: #9e9bbf;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.preview {
-  min-height: 42px;
-  min-width: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.preview { min-height: 42px; min-width: 42px; display: flex; align-items: center; justify-content: center; }
