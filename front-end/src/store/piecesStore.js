@@ -1,50 +1,54 @@
-import { create } from 'zustand';
+import { create } from 'zustand'
+import { PRESETS } from '../components/pieces/Presets'
 
-const EMPTY_PIECE = { cells: [], color: '#00f0ff' };
-
-const DEFAULT_COLORS = ['#ff4060', '#00e676', '#00b0ff'];
+const emptyPiece = () => ({ cells: [] })
 
 export const usePiecesStore = create((set, get) => ({
-  pieces: [
-    { ...EMPTY_PIECE, color: DEFAULT_COLORS[0] },
-    { ...EMPTY_PIECE, color: DEFAULT_COLORS[1] },
-    { ...EMPTY_PIECE, color: DEFAULT_COLORS[2] },
-  ],
-
+  pieces: [emptyPiece(), emptyPiece(), emptyPiece()],
   selectedPieceIdx: 0,
 
   setSelectedPiece: (idx) => set({ selectedPieceIdx: idx }),
 
   togglePieceCell: (pieceIdx, row, col) => {
     const pieces = get().pieces.map((p, i) => {
-      if (i !== pieceIdx) return p;
-      const exists = p.cells.some(([r, c]) => r === row && c === col);
-      const cells = exists
-        ? p.cells.filter(([r, c]) => !(r === row && c === col))
-        : [...p.cells, [row, col]];
-      return { ...p, cells };
-    });
-    set({ pieces });
+      if (i !== pieceIdx) return p
+      const cells = [...p.cells]
+      const existing = cells.findIndex(([r, c]) => r === row && c === col)
+      if (existing >= 0) {
+        cells.splice(existing, 1)
+      } else {
+        cells.push([row, col])
+      }
+      // normalize
+      if (cells.length === 0) return { cells: [] }
+      const minR = Math.min(...cells.map(([r]) => r))
+      const minC = Math.min(...cells.map(([, c]) => c))
+      return { cells: cells.map(([r, c]) => [r - minR, c - minC]) }
+    })
+    set({ pieces })
   },
 
-  setPieceCells: (pieceIdx, cells) => {
+  setPiece: (pieceIdx, cells) => {
     const pieces = get().pieces.map((p, i) =>
-      i === pieceIdx ? { ...p, cells } : p
-    );
-    set({ pieces });
+      i === pieceIdx ? { cells: cells.map((c) => [...c]) } : p
+    )
+    set({ pieces })
   },
 
   clearPiece: (pieceIdx) => {
     const pieces = get().pieces.map((p, i) =>
-      i === pieceIdx ? { ...p, cells: [] } : p
-    );
-    set({ pieces });
+      i === pieceIdx ? emptyPiece() : p
+    )
+    set({ pieces })
   },
 
   clearAllPieces: () =>
-    set({
-      pieces: DEFAULT_COLORS.map((color) => ({ ...EMPTY_PIECE, color })),
-    }),
+    set({ pieces: [emptyPiece(), emptyPiece(), emptyPiece()] }),
 
-  setPieces: (pieces) => set({ pieces }),
-}));
+  randomPieces: () => {
+    const shuffled = [...PRESETS].sort(() => Math.random() - 0.5).slice(0, 3)
+    set({
+      pieces: shuffled.map((p) => ({ cells: p.cells.map((c) => [...c]) })),
+    })
+  },
+}))

@@ -1,41 +1,34 @@
-import { useCallback } from 'react';
-import { useBoardStore } from '../store/boardStore';
-import { useSolverStore } from '../store/solverStore';
+import { useBoardStore } from '../store/boardStore'
+import { useScoreStore } from '../store/scoreStore'
 
 export const useBoard = () => {
-  const { board, toggleCell, clearBoard, setBoard } = useBoardStore();
-  const { clearSolution } = useSolverStore();
+  const { board, toggleCell, setBoard, clearBoard, randomBoard } = useBoardStore()
+  const { setStatus } = useScoreStore()
 
-  const handleToggleCell = useCallback(
-    (row, col) => {
-      toggleCell(row, col);
-      clearSolution();
-    },
-    [toggleCell, clearSolution]
-  );
+  const handleToggleCell = (row, col) => {
+    toggleCell(row, col)
+  }
 
-  const handleClearBoard = useCallback(() => {
-    clearBoard();
-    clearSolution();
-  }, [clearBoard, clearSolution]);
+  const handleClearBoard = () => {
+    clearBoard()
+    setStatus('ล้างกระดานแล้ว')
+  }
 
-  const handleSetBoard = useCallback(
-    (newBoard) => {
-      setBoard(newBoard);
-      clearSolution();
-    },
-    [setBoard, clearSolution]
-  );
+  const handleRandomBoard = () => {
+    randomBoard()
+    setStatus('สุ่มกระดานใหม่แล้ว')
+  }
 
-  const filledCount = board.flat().filter((c) => c !== 0).length;
-  const fillPercent = Math.round((filledCount / 64) * 100); // 8x8 = 64 cells
+  const filledCount = board.flat().filter((c) => c !== 0).length
+  const fillPercent = Math.round((filledCount / 64) * 100)
 
   return {
     board,
     handleToggleCell,
     handleClearBoard,
-    handleSetBoard,
+    handleRandomBoard,
+    setBoard,
     filledCount,
     fillPercent,
-  };
-};
+  }
+}

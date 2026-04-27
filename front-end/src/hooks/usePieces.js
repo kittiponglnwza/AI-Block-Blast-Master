@@ -1,6 +1,5 @@
-import { useCallback } from 'react';
-import { usePiecesStore } from '../store/piecesStore';
-import { useSolverStore } from '../store/solverStore';
+import { usePiecesStore } from '../store/piecesStore'
+import { useScoreStore } from '../store/scoreStore'
 
 export const usePieces = () => {
   const {
@@ -8,44 +7,30 @@ export const usePieces = () => {
     selectedPieceIdx,
     setSelectedPiece,
     togglePieceCell,
+    setPiece,
     clearPiece,
     clearAllPieces,
-    setPieces,
-  } = usePiecesStore();
+    randomPieces,
+  } = usePiecesStore()
 
-  const { clearSolution } = useSolverStore();
+  const { setStatus } = useScoreStore()
 
-  const handleTogglePieceCell = useCallback(
-    (pieceIdx, row, col) => {
-      togglePieceCell(pieceIdx, row, col);
-      clearSolution();
-    },
-    [togglePieceCell, clearSolution]
-  );
+  const handleRandomPieces = () => {
+    randomPieces()
+    setStatus('สุ่มชิ้นส่วนใหม่แล้ว')
+  }
 
-  const handleClearPiece = useCallback(
-    (pieceIdx) => {
-      clearPiece(pieceIdx);
-      clearSolution();
-    },
-    [clearPiece, clearSolution]
-  );
-
-  const handleClearAllPieces = useCallback(() => {
-    clearAllPieces();
-    clearSolution();
-  }, [clearAllPieces, clearSolution]);
-
-  const activePiecesCount = pieces.filter((p) => p.cells.length > 0).length;
+  const activePiecesCount = pieces.filter((p) => p.cells.length > 0).length
 
   return {
     pieces,
     selectedPieceIdx,
     setSelectedPiece,
-    handleTogglePieceCell,
-    handleClearPiece,
-    handleClearAllPieces,
-    setPieces,
+    togglePieceCell,
+    setPiece,
+    clearPiece,
+    clearAllPieces,
+    handleRandomPieces,
     activePiecesCount,
-  };
-};
+  }
+}

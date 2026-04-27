@@ -1,0 +1,63 @@
+.wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 28px);
+  gap: 3px;
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.08s;
+}
+
+.cell:hover {
+  transform: scale(1.08);
+  filter: brightness(0.95);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.select {
+  font-size: 11px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid #dde1f7;
+  background: #f0f2ff;
+  color: #3d3b8e;
+  cursor: pointer;
+  outline: none;
+}
+
+.select:focus {
+  border-color: #5c6bc0;
+}
+
+.clearBtn {
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #dde1f7;
+  background: #fff;
+  color: #9e9bbf;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.clearBtn:hover {
+  background: #f0f2ff;
+  color: #5c6bc0;
+}

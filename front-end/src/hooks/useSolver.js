@@ -1,60 +1,53 @@
-import { useCallback } from 'react';
-import { useBoardStore } from '../store/boardStore';
-import { usePiecesStore } from '../store/piecesStore';
-import { useSolverStore } from '../store/solverStore';
-import { solve } from '../solver/engine';
+import { useBoardStore } from '../store/boardStore'
+import { usePiecesStore } from '../store/piecesStore'
+import { useScoreStore } from '../store/scoreStore'
+import { solve } from '../solver/engine'
+import { placeOnBoard, clearLines } from '../solver/boardUtils'
+import { cloneBoard } from '../solver/boardUtils'
+import { scoreBoard } from '../solver/heuristic'
 
 export const useSolver = () => {
-  const { board } = useBoardStore();
-  const { pieces } = usePiecesStore();
-  const { solution, currentStep, isLoading, error, setSolution, setCurrentStep, setLoading, setError, clearSolution } =
-    useSolverStore();
+  const { board, setBoard } = useBoardStore()
+  const { pieces, clearAllPieces } = usePiecesStore()
+  const { addScore, setStatus } = useScoreStore()
 
-  const runSolver = useCallback(() => {
-    const activePieces = pieces.filter((p) => p.cells.length > 0);
-    if (activePieces.length === 0) {
-      setError('กรุณาสร้าง piece อย่างน้อย 1 ชิ้น');
-      return;
+  const handleSolve = async () => {
+    const active = pieces.filter((p) => p && p.cells && p.cells.length > 0)
+    if (active.length === 0) {
+      setStatus('กรุณาวาดชิ้นส่วนก่อน (อย่างน้อย 1 ชิ้น)')
+      return
     }
 
-    setLoading(true);
-    clearSolution();
+    setStatus('กำลังคำนวณ...')
+    await new Promise((r) => setTimeout(r, 30))
 
-    // ใช้ setTimeout เพื่อไม่ให้ UI freeze
-    setTimeout(() => {
-      try {
-        const result = solve(board, pieces);
-        if (!result) {
-          setError('ไม่สามารถวาง piece ได้ — board อาจเต็มเกินไป');
-        } else {
-          setSolution(result);
-        }
-      } catch (e) {
-        setError('เกิดข้อผิดพลาด: ' + e.message);
-      } finally {
-        setLoading(false);
-      }
-    }, 50);
-  }, [board, pieces, setSolution, setLoading, setError, clearSolution]);
-
-  const nextStep = useCallback(() => {
-    if (solution && currentStep < solution.steps.length - 1) {
-      setCurrentStep(currentStep + 1);
+    const solution = solve(board, pieces)
+    if (!solution) {
+      setStatus('ไม่สามารถวางชิ้นส่วนได้ ลองเคลียร์กระดานหรือเปลี่ยนชิ้นส่วน')
+      return
     }
-  }, [solution, currentStep, setCurrentStep]);
 
-  const prevStep = useCallback(() => {
-    if (currentStep > 0) setCurrentStep(currentStep - 1);
-  }, [currentStep, setCurrentStep]);
+    let finalBoard = cloneBoard(board)
+    let gainedScore = 0
+    let gainedLines = 0
 
-  return {
-    solution,
-    currentStep,
-    isLoading,
-    error,
-    runSolver,
-    nextStep,
-    prevStep,
-    clearSolution,
-  };
-};
+    for (const step of solution.steps) {
+      const piece = solution.activePieces[step.pieceIdx]
+      finalBoard = placeOnBoard(finalBoard, piece, step.row, step.col, step.pieceIdx + 1)
+      const { board: cl, linesCleared } = clearLines(finalBoard)
+      finalBoard = cl
+      gainedScore += scoreBoard(cl, linesCleared)
+      gainedScore += piece.cells.length * 10
+      gainedLines += linesCleared
+    }
+
+    setBoard(finalBoard)
+    clearAllPieces()
+    addScore(Math.max(0, gainedScore), gainedLines)
+    setStatus(
+      `วางชิ้นส่วนได้ ${solution.steps.length} ชิ้น | ล้าง ${gainedLines} เส้น | +${Math.max(0, gainedScore)} คะแนน`
+    )
+  }
+
+  return { handleSolve }
+}

@@ -1,8 +1,4 @@
-// Common Block Blast piece shapes
-// cells = [row, col] relative coordinates, normalized to start at [0,0]
-
 export const PRESETS = [
-  // ── Singles & Lines ──
   { name: '1×1',  cells: [[0,0]] },
   { name: '1×2',  cells: [[0,0],[0,1]] },
   { name: '1×3',  cells: [[0,0],[0,1],[0,2]] },
@@ -12,32 +8,26 @@ export const PRESETS = [
   { name: '3×1',  cells: [[0,0],[1,0],[2,0]] },
   { name: '4×1',  cells: [[0,0],[1,0],[2,0],[3,0]] },
   { name: '5×1',  cells: [[0,0],[1,0],[2,0],[3,0],[4,0]] },
-
-  // ── Squares ──
   { name: '2×2',  cells: [[0,0],[0,1],[1,0],[1,1]] },
   { name: '3×3',  cells: [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]] },
-
-  // ── L shapes ──
   { name: 'L',    cells: [[0,0],[1,0],[2,0],[2,1]] },
   { name: 'J',    cells: [[0,1],[1,1],[2,0],[2,1]] },
   { name: 'L2',   cells: [[0,0],[0,1],[1,0],[2,0]] },
   { name: 'J2',   cells: [[0,0],[0,1],[1,1],[2,1]] },
-
-  // ── T shapes ──
   { name: 'T↓',   cells: [[0,0],[0,1],[0,2],[1,1]] },
   { name: 'T↑',   cells: [[0,1],[1,0],[1,1],[1,2]] },
   { name: 'T→',   cells: [[0,0],[1,0],[1,1],[2,0]] },
   { name: 'T←',   cells: [[0,1],[1,0],[1,1],[2,1]] },
-
-  // ── S / Z ──
   { name: 'S',    cells: [[0,1],[0,2],[1,0],[1,1]] },
   { name: 'Z',    cells: [[0,0],[0,1],[1,1],[1,2]] },
   { name: 'S2',   cells: [[0,0],[1,0],[1,1],[2,1]] },
   { name: 'Z2',   cells: [[0,1],[1,0],[1,1],[2,0]] },
-
-  // ── Corners ──
   { name: '┘',    cells: [[0,0],[0,1],[1,1]] },
   { name: '└',    cells: [[0,0],[0,1],[1,0]] },
   { name: '┐',    cells: [[0,1],[1,0],[1,1]] },
   { name: '┌',    cells: [[0,0],[1,0],[1,1]] },
-];
+  { name: '2×3',  cells: [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]] },
+]
+
+export const PIECE_COLORS = ['#5c6bc0', '#7e57c2', '#42a5f5']
+export const FILLED_COLOR = '#3d3b8e'

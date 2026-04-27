@@ -1,0 +1,40 @@
+.slot {
+  background: #f0f2ff;
+  border-radius: 12px;
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  min-height: 80px;
+  justify-content: center;
+}
+
+.slot:hover {
+  background: #e8eaff;
+}
+
+.slot.active {
+  border-color: #5c6bc0;
+  background: #eceeff;
+}
+
+.label {
+  font-size: 10px;
+  color: #9e9bbf;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.preview {
+  min-height: 42px;
+  min-width: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,16 @@
+.cell {
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.08s;
+}
+
+.cell:hover {
+  transform: scale(1.06);
+  filter: brightness(1.1);
+}
+
+.cell:active {
+  transform: scale(0.95);
+}
