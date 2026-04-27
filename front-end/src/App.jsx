@@ -13,43 +13,97 @@ const App = () => {
   return (
     <div className="app-root">
       <div className="mode-bar">
-        <button className="mode-back" onClick={() => setMode(null)}>← Back</button>
+        <button
+          className="mode-back"
+          onClick={() => setMode(null)}
+        >
+          ← Back
+        </button>
+
         <span className="mode-title">
-          {mode === 'game' ? '🎮 Block Blast' : '🧠 Board Solver'}
+          {mode === 'game'
+            ? '🎮 Block Blast'
+            : '🧠 Board Solver'}
         </span>
+
         <button
           className="mode-switch"
-          onClick={() => setMode(mode === 'game' ? 'solver' : 'game')}
+          onClick={() =>
+            setMode(
+              mode === 'game'
+                ? 'solver'
+                : 'game'
+            )
+          }
         >
-          Switch to {mode === 'game' ? 'Solver' : 'Game'}
+          Switch to{' '}
+          {mode === 'game'
+            ? 'Solver'
+            : 'Game'}
         </button>
       </div>
-      {mode === 'game' ? <GamePage /> : <SolverPage />}
+
+      {mode === 'game'
+        ? <GamePage />
+        : <SolverPage />}
     </div>
   )
 }
 
 const ModeSelect = ({ onSelect }) => (
   <div className="mode-select">
-    <h1 className="mode-select-title">Block Blast</h1>
-    <p className="mode-select-sub">เลือกโหมดที่ต้องการ</p>
+    <h1 className="mode-select-title">
+      Block Blast
+    </h1>
+
+    <p className="mode-select-sub">
+      Select your preferred mode
+    </p>
+
     <div className="mode-cards">
-      <button className="mode-card" onClick={() => onSelect('game')}>
-        <div className="mode-card-icon">🎮</div>
-        <div className="mode-card-name">Play Game</div>
+      <button
+        className="mode-card"
+        onClick={() =>
+          onSelect('game')
+        }
+      >
+        <div className="mode-card-icon">
+          🎮
+        </div>
+
+        <div className="mode-card-name">
+          Play Game
+        </div>
+
         <div className="mode-card-desc">
-          สุ่มกระดาน + บล็อก 3 ชิ้น<br />
-          AI แนะนำตำแหน่งวางที่ดีที่สุด<br />
-          เล่นได้ด้วยตัวเองหรือกด AI
+          Random board + 3 block pieces
+          <br />
+          AI suggests the best moves
+          <br />
+          Play manually or use AI
         </div>
       </button>
-      <button className="mode-card" onClick={() => onSelect('solver')}>
-        <div className="mode-card-icon">🧠</div>
-        <div className="mode-card-name">Board Solver</div>
+
+      <button
+        className="mode-card"
+        onClick={() =>
+          onSelect('solver')
+        }
+      >
+        <div className="mode-card-icon">
+          🧠
+        </div>
+
+        <div className="mode-card-name">
+          Board Solver
+        </div>
+
         <div className="mode-card-desc">
-          วาดกระดานจากเกมจริง<br />
-          ใส่ชิ้นที่มีอยู่ในมือ<br />
-          AI หาทางวางที่ดีที่สุดให้
+          Draw board from real game
+          <br />
+          Add the pieces in hand
+          <br />
+          AI finds the best solution
         </div>
       </button>
     </div>

@@ -7,18 +7,19 @@ import { useBoard } from '../hooks/useBoard'
 import { usePieces } from '../hooks/usePieces'
 import { useSolver } from '../hooks/useSolver'
 import { useScoreStore } from '../store/scoreStore'
-import { PIECE_COLORS } from '../components/pieces/Presets'
 import styles from './SolverPage.module.css'
 
 // Mini 8×8 board showing where a piece can be placed
 const MiniBoard = ({ board, validCells, color }) => {
   const validSet = new Set(validCells.map(([r, c]) => `${r},${c}`))
+
   return (
     <div className={styles.miniBoard}>
       {Array.from({ length: 8 }, (_, r) =>
         Array.from({ length: 8 }, (_, c) => {
           const filled = board[r][c] !== 0
           const valid = validSet.has(`${r},${c}`)
+
           return (
             <div
               key={`${r}-${c}`}
@@ -41,20 +42,36 @@ const MiniBoard = ({ board, validCells, color }) => {
 
 const SolverPage = () => {
   const { handleClearBoard, handleRandomBoard } = useBoard()
-  const { pieces, selectedPieceIdx, setSelectedPiece, clearAllPieces, handleRandomPieces } = usePieces()
+
+  const {
+    pieces,
+    selectedPieceIdx,
+    setSelectedPiece,
+    clearAllPieces,
+    handleRandomPieces,
+  } = usePieces()
+
   const { handleSolve, getPlan } = useSolver()
   const { resetScore } = useScoreStore()
+
   const [showPlan, setShowPlan] = useState(false)
   const [plan, setPlan] = useState(null)
   const [activePlanIdx, setActivePlanIdx] = useState(0)
 
   const handleClearAll = () => {
-    handleClearBoard(); clearAllPieces(); resetScore()
+    handleClearBoard()
+    clearAllPieces()
+    resetScore()
   }
 
   const handlePreSolve = () => {
     const p = getPlan()
-    if (!p || p.activeCount === 0) { handleSolve(); return }
+
+    if (!p || p.activeCount === 0) {
+      handleSolve()
+      return
+    }
+
     setPlan(p)
     setActivePlanIdx(0)
     setShowPlan(true)
@@ -66,76 +83,155 @@ const SolverPage = () => {
   }
 
   const PIECE_LABELS = ['Figure 1', 'Figure 2', 'Figure 3']
-  // cream palette per figure
   const PLAN_COLORS = ['#e8846a', '#6aabe8', '#6ad4a0']
 
   return (
     <div className={styles.page}>
       <ScoreBar />
+
       <div className={styles.mainRow}>
+        {/* Left panel */}
         <div className={styles.panel}>
-          <h2 className={styles.panelTitle}>กระดานปัจจุบัน</h2>
-          <p className={styles.hint}>คลิกเซลเพื่อวาด/ลบ หรือสุ่ม</p>
+          <h2 className={styles.panelTitle}>Current Board</h2>
+
+          <p className={styles.hint}>
+            Click cells to draw/remove or generate random board
+          </p>
+
           <div className={styles.genRow}>
-            <button className={styles.genBtn} onClick={handleClearBoard}>ว่างเปล่า</button>
-            <button className={styles.genBtn} onClick={handleRandomBoard}>สุ่มกระดาน</button>
+            <button
+              className={styles.genBtn}
+              onClick={handleClearBoard}
+            >
+              Empty Board
+            </button>
+
+            <button
+              className={styles.genBtn}
+              onClick={handleRandomBoard}
+            >
+              Random Board
+            </button>
           </div>
+
           <BoardGrid />
         </div>
+
+        {/* Right panel */}
         <div className={`${styles.panel} ${styles.piecesPanel}`}>
-          <h2 className={styles.panelTitle}>ชิ้นส่วนในมือ (3 ชิ้น)</h2>
-          <p className={styles.hint}>เลือก preset หรือวาดเองในตาราง 5×5</p>
+          <h2 className={styles.panelTitle}>Pieces in Hand (3 Pieces)</h2>
+
+          <p className={styles.hint}>
+            Choose preset or draw manually in the 5×5 grid
+          </p>
+
           <div className={styles.genRow}>
-            <button className={styles.genBtn} onClick={handleRandomPieces}>สุ่มชิ้นส่วน</button>
-            <button className={styles.genBtn} onClick={clearAllPieces}>ล้างชิ้นส่วน</button>
+            <button
+              className={styles.genBtn}
+              onClick={handleRandomPieces}
+            >
+              Random Pieces
+            </button>
+
+            <button
+              className={styles.genBtn}
+              onClick={clearAllPieces}
+            >
+              Clear Pieces
+            </button>
           </div>
+
           <div className={styles.piecesRow}>
             {pieces.map((p, i) => (
-              <PieceSlot key={i} piece={p} pieceIdx={i} isSelected={selectedPieceIdx === i} onClick={() => setSelectedPiece(i)} />
+              <PieceSlot
+                key={i}
+                piece={p}
+                pieceIdx={i}
+                isSelected={selectedPieceIdx === i}
+                onClick={() => setSelectedPiece(i)}
+              />
             ))}
           </div>
+
           <div className={styles.editorSection}>
-            <p className={styles.editorHint}>คลิกชิ้นส่วนด้านบน แล้วแก้ไขในตารางนี้</p>
+            <p className={styles.editorHint}>
+              Click a piece above, then edit it in this grid
+            </p>
+
             <PieceEditor />
           </div>
         </div>
       </div>
 
+      {/* Bottom buttons */}
       <div className={styles.btnRow}>
-        <button className={styles.btnClear} onClick={handleClearAll}>Clear</button>
-        <button className={styles.btnSolve} onClick={handlePreSolve}>Solve ✦</button>
+        <button
+          className={styles.btnClear}
+          onClick={handleClearAll}
+        >
+          Clear
+        </button>
+
+        <button
+          className={styles.btnSolve}
+          onClick={handlePreSolve}
+        >
+          Solve ✦
+        </button>
       </div>
 
+      {/* Plan modal */}
       {showPlan && plan && (
-        <div className={styles.overlay} onClick={() => setShowPlan(false)}>
-          <div className={styles.modal} onClick={e => e.stopPropagation()}>
-
+        <div
+          className={styles.overlay}
+          onClick={() => setShowPlan(false)}
+        >
+          <div
+            className={styles.modal}
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header */}
             <div className={styles.modalHeader}>
-              <span className={styles.modalTitle}>แผนการวาง</span>
+              <span className={styles.modalTitle}>Placement Plan</span>
+
               <span className={styles.modalSub}>
-                {plan.activeCount} ชิ้น · {plan.permutations} ลำดับ · {plan.placements.reduce((s, p) => s + p.count, 0)} ตำแหน่ง
+                {plan.activeCount} pieces ·{' '}
+                {plan.permutations} orders ·{' '}
+                {plan.placements.reduce((s, p) => s + p.count, 0)} positions
               </span>
             </div>
 
-            {/* Piece tabs */}
+            {/* Tabs */}
             <div className={styles.tabs}>
               {plan.placements.map((p, i) => (
                 <button
                   key={i}
-                  className={`${styles.tab} ${activePlanIdx === i ? styles.tabActive : ''}`}
-                  style={activePlanIdx === i ? { borderColor: PLAN_COLORS[p.pieceIdx], color: PLAN_COLORS[p.pieceIdx] } : {}}
+                  className={`${styles.tab} ${
+                    activePlanIdx === i ? styles.tabActive : ''
+                  }`}
+                  style={
+                    activePlanIdx === i
+                      ? {
+                          borderColor: PLAN_COLORS[p.pieceIdx],
+                          color: PLAN_COLORS[p.pieceIdx],
+                        }
+                      : {}
+                  }
                   onClick={() => setActivePlanIdx(i)}
                 >
                   {PIECE_LABELS[p.pieceIdx]}
-                  <span className={styles.tabCount}>{p.count}</span>
+
+                  <span className={styles.tabCount}>
+                    {p.count}
+                  </span>
                 </button>
               ))}
             </div>
 
-            {/* Mini board preview */}
+            {/* Preview */}
             {(() => {
               const cur = plan.placements[activePlanIdx]
+
               return (
                 <div className={styles.previewSection}>
                   <MiniBoard
@@ -143,17 +239,39 @@ const SolverPage = () => {
                     validCells={cur.validCells}
                     color={PLAN_COLORS[cur.pieceIdx]}
                   />
+
                   <div className={styles.previewLegend}>
-                    <span className={styles.legendDot} style={{ background: PLAN_COLORS[cur.pieceIdx] }} />
-                    <span className={styles.legendText}>ตำแหน่งที่วางได้ {cur.count} จุด</span>
+                    <span
+                      className={styles.legendDot}
+                      style={{
+                        background:
+                          PLAN_COLORS[cur.pieceIdx],
+                      }}
+                    />
+
+                    <span className={styles.legendText}>
+                      Valid placements: {cur.count}
+                    </span>
                   </div>
                 </div>
               )
             })()}
 
+            {/* Modal buttons */}
             <div className={styles.modalBtns}>
-              <button className={styles.modalCancel} onClick={() => setShowPlan(false)}>ยกเลิก</button>
-              <button className={styles.modalConfirm} onClick={handleConfirmSolve}>Solve ✦</button>
+              <button
+                className={styles.modalCancel}
+                onClick={() => setShowPlan(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className={styles.modalConfirm}
+                onClick={handleConfirmSolve}
+              >
+                Solve ✦
+              </button>
             </div>
           </div>
         </div>

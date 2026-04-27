@@ -11,6 +11,7 @@ import styles from './MainPage.module.css'
 
 const MainPage = () => {
   const { handleClearBoard, handleRandomBoard } = useBoard()
+
   const {
     pieces,
     selectedPieceIdx,
@@ -18,6 +19,7 @@ const MainPage = () => {
     clearAllPieces,
     handleRandomPieces,
   } = usePieces()
+
   const { handleSolve } = useSolver()
   const { resetScore } = useScoreStore()
 
@@ -36,27 +38,44 @@ const MainPage = () => {
       <div className={styles.mainRow}>
         {/* Left panel — initial grid */}
         <div className={styles.panel}>
-          <h2 className={styles.panelTitle}>Fill the initial grid</h2>
+          <h2 className={styles.panelTitle}>Fill the Initial Grid</h2>
+
           <div className={styles.genRow}>
-            <button className={styles.genBtn} onClick={() => handleClearBoard()}>
-              ว่างเปล่า
+            <button
+              className={styles.genBtn}
+              onClick={() => handleClearBoard()}
+            >
+              Empty Board
             </button>
-            <button className={styles.genBtn} onClick={handleRandomBoard}>
-              สุ่มกระดาน
+
+            <button
+              className={styles.genBtn}
+              onClick={handleRandomBoard}
+            >
+              Random Board
             </button>
           </div>
+
           <BoardGrid />
         </div>
 
         {/* Right panel — 3 figures */}
         <div className={`${styles.panel} ${styles.piecesPanel}`}>
-          <h2 className={styles.panelTitle}>Fill the 3 figures</h2>
+          <h2 className={styles.panelTitle}>Fill the 3 Figures</h2>
+
           <div className={styles.genRow}>
-            <button className={styles.genBtn} onClick={handleRandomPieces}>
-              สุ่มชิ้นส่วน
+            <button
+              className={styles.genBtn}
+              onClick={handleRandomPieces}
+            >
+              Random Pieces
             </button>
-            <button className={styles.genBtn} onClick={clearAllPieces}>
-              ล้างชิ้นส่วน
+
+            <button
+              className={styles.genBtn}
+              onClick={clearAllPieces}
+            >
+              Clear Pieces
             </button>
           </div>
 
@@ -75,7 +94,10 @@ const MainPage = () => {
 
           {/* Piece editor */}
           <div className={styles.editorSection}>
-            <p className={styles.editorHint}>แก้ไขชิ้นส่วนที่เลือก (กดเซลเพื่อวาด)</p>
+            <p className={styles.editorHint}>
+              Edit the selected piece (click cells to draw)
+            </p>
+
             <PieceEditor />
           </div>
         </div>
@@ -83,10 +105,17 @@ const MainPage = () => {
 
       {/* Bottom action buttons */}
       <div className={styles.btnRow}>
-        <button className={styles.btnClear} onClick={handleClearAll}>
+        <button
+          className={styles.btnClear}
+          onClick={handleClearAll}
+        >
           Clear
         </button>
-        <button className={styles.btnSolve} onClick={handleSolve}>
+
+        <button
+          className={styles.btnSolve}
+          onClick={handleSolve}
+        >
           Solve ✦
         </button>
       </div>
