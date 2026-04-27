@@ -1,0 +1,82 @@
+.piece-slot {
+  background: #0a1828;
+  border: 1px solid #1a3050;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 80px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.piece-slot.selected {
+  border-color: #00f0ff;
+  box-shadow: 0 0 12px #00f0ff44;
+}
+.piece-slot.empty {
+  border-style: dashed;
+  border-color: #1a3050;
+}
+.piece-slot-empty-label {
+  font-size: 11px;
+  color: #4a6080;
+}
+.piece-slot-grid {
+  display: grid;
+  gap: 2px;
+}
+.piece-slot-cell {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+/* PieceBuilder */
+.piece-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.piece-builder-label {
+  font-size: 12px;
+  color: #8ab0d0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.piece-clear-btn {
+  font-size: 11px;
+  background: none;
+  border: 1px solid #1a3050;
+  color: #4a6080;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.piece-clear-btn:hover {
+  border-color: #ff4060;
+  color: #ff4060;
+}
+.piece-builder-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 24px);
+  gap: 2px;
+}
+.piece-builder-cell {
+  width: 24px;
+  height: 24px;
+  background: #0d1a2a;
+  border: 1px solid #0f2035;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.piece-builder-cell:hover {
+  border-color: #1a4060;
+  background: #152030;
+}
+.piece-builder-cell.on {
+  border-radius: 3px;
+}
