@@ -1,5 +1,5 @@
-export const ROWS = 10;
-export const COLS = 10;
+export const ROWS = 8;
+export const COLS = 8;
 
 export const createEmptyBoard = () =>
   Array.from({ length: ROWS }, () => Array(COLS).fill(0));

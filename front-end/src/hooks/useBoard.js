@@ -9,7 +9,7 @@ export const useBoard = () => {
   const handleToggleCell = useCallback(
     (row, col) => {
       toggleCell(row, col);
-      clearSolution(); // เคลียร์ solution เมื่อ board เปลี่ยน
+      clearSolution();
     },
     [toggleCell, clearSolution]
   );
@@ -28,7 +28,7 @@ export const useBoard = () => {
   );
 
   const filledCount = board.flat().filter((c) => c !== 0).length;
-  const fillPercent = Math.round((filledCount / 100) * 100);
+  const fillPercent = Math.round((filledCount / 64) * 100); // 8x8 = 64 cells
 
   return {
     board,

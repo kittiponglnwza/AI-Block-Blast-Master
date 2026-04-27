@@ -1,82 +1,170 @@
+/* ─── Piece Slot (preview) ─── */
 .piece-slot {
-  background: #0a1828;
-  border: 1px solid #1a3050;
-  border-radius: 8px;
+  background: var(--surface, #131120);
+  border: 1px solid var(--border, #2a2545);
+  border-radius: 10px;
   padding: 10px;
   cursor: pointer;
   transition: all 0.2s;
-  min-width: 80px;
-  min-height: 80px;
+  min-width: 72px;
+  min-height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.piece-slot:hover {
+  border-color: var(--border2, #3d3760);
 }
 .piece-slot.selected {
-  border-color: #00f0ff;
-  box-shadow: 0 0 12px #00f0ff44;
+  border-color: var(--accent, #7c5cfc);
+  box-shadow: 0 0 0 1px var(--accent, #7c5cfc), 0 0 20px var(--glow2, rgba(124,92,252,0.15));
+  background: rgba(124, 92, 252, 0.05);
 }
 .piece-slot.empty {
   border-style: dashed;
-  border-color: #1a3050;
+  border-color: rgba(61,55,96,0.5);
 }
 .piece-slot-empty-label {
-  font-size: 11px;
-  color: #4a6080;
+  font-size: 10px;
+  color: var(--muted, #6b6490);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 .piece-slot-grid {
   display: grid;
   gap: 2px;
 }
 .piece-slot-cell {
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
 }
 
-/* PieceBuilder */
+/* ─── Piece Builder ─── */
 .piece-builder {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  background: var(--surface, #131120);
+  border: 1px solid var(--border, #2a2545);
+  border-radius: 12px;
+  padding: 12px;
 }
-.piece-builder-label {
-  font-size: 12px;
-  color: #8ab0d0;
+.piece-builder-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.piece-clear-btn {
+.piece-builder-label {
+  font-family: 'Chakra Petch', sans-serif;
   font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted, #6b6490);
+}
+.piece-builder-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.piece-clear-btn {
+  font-size: 10px;
+  font-family: 'Rajdhani', sans-serif;
   background: none;
-  border: 1px solid #1a3050;
-  color: #4a6080;
+  border: 1px solid rgba(61,55,96,0.6);
+  color: var(--muted, #6b6490);
   border-radius: 4px;
   padding: 2px 8px;
   cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 .piece-clear-btn:hover {
-  border-color: #ff4060;
-  color: #ff4060;
+  border-color: var(--red, #f0436a);
+  color: var(--red, #f0436a);
 }
 .piece-builder-grid {
   display: grid;
-  grid-template-columns: repeat(5, 24px);
-  gap: 2px;
+  grid-template-columns: repeat(5, 26px);
+  gap: 3px;
 }
 .piece-builder-cell {
-  width: 24px;
-  height: 24px;
-  background: #0d1a2a;
-  border: 1px solid #0f2035;
-  border-radius: 3px;
+  width: 26px;
+  height: 26px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(61,55,96,0.35);
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.1s;
 }
 .piece-builder-cell:hover {
-  border-color: #1a4060;
-  background: #152030;
+  border-color: rgba(124,92,252,0.4);
+  background: rgba(124,92,252,0.08);
 }
 .piece-builder-cell.on {
-  border-radius: 3px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* ─── Tabs ─── */
+.pb-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 3px;
+}
+.pb-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--mut, #6b6490);
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pb-tab.active {
+  background: var(--surf2, #1c1a2e);
+  color: var(--acc2, #c084fc);
+  border: 1px solid var(--bord, #2a2545);
+}
+.pb-tab:not(.active):hover {
+  color: var(--txt, #ddd8f5);
+}
+
+/* ─── Preset Grid ─── */
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.preset-btn {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(61,55,96,0.4);
+  border-radius: 6px;
+  padding: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+  aspect-ratio: 1;
+}
+.preset-btn:hover {
+  border-color: rgba(124,92,252,0.4);
+  background: rgba(124,92,252,0.06);
+}
+.preset-btn.active {
+  box-shadow: 0 0 8px rgba(124,92,252,0.2);
 }

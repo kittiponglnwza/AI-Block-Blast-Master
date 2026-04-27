@@ -6,50 +6,116 @@ import SolverPanel from '../components/solver/SolverPanel';
 import { useBoard } from '../hooks/useBoard';
 import { usePieces } from '../hooks/usePieces';
 
+const stat = (label, value, color = '#c084fc') => (
+  <div style={{
+    background: 'rgba(19,17,32,0.9)',
+    border: '1px solid #2a2545',
+    borderRadius: '10px',
+    padding: '10px 18px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '2px',
+    minWidth: '80px',
+  }}>
+    <span style={{ fontSize: '9px', color: '#6b6490', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'Chakra Petch, sans-serif' }}>{label}</span>
+    <span style={{ fontSize: '22px', fontFamily: 'Chakra Petch, sans-serif', fontWeight: '700', color, lineHeight: 1 }}>{value}</span>
+  </div>
+);
+
 const ManualPage = () => {
   const { handleClearBoard, filledCount, fillPercent } = useBoard();
   const { pieces, selectedPieceIdx, setSelectedPiece, handleClearAllPieces, activePiecesCount } = usePieces();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px 16px' }}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '18px',
+      padding: '20px 16px 40px',
+      width: '100%',
+      maxWidth: '440px',
+      margin: '0 auto',
+    }}>
 
-      {/* HUD */}
-      <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', color: '#4a6080', letterSpacing: '2px' }}>FILLED</div>
-          <div style={{ fontSize: '20px', fontFamily: 'Orbitron,sans-serif', color: '#00f0ff' }}>{filledCount}/100</div>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', color: '#4a6080', letterSpacing: '2px' }}>PIECES</div>
-          <div style={{ fontSize: '20px', fontFamily: 'Orbitron,sans-serif', color: '#ffd700' }}>{activePiecesCount}/3</div>
-        </div>
+      {/* ─── HUD Stats ─── */}
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
+        {stat('Filled', `${filledCount}/64`, '#c084fc')}
+        {stat('Density', `${fillPercent}%`, fillPercent > 60 ? '#f0436a' : fillPercent > 30 ? '#f4c542' : '#2de08a')}
+        {stat('Pieces', `${activePiecesCount}/3`, '#38bdf8')}
         <button
-          onClick={handleClearBoard}
-          style={{ background: 'none', border: '1px solid #1a3050', color: '#4a6080', borderRadius: '6px', padding: '6px 14px', cursor: 'pointer', fontSize: '12px' }}
+          onClick={() => { handleClearBoard(); handleClearAllPieces(); }}
+          style={{
+            background: 'rgba(240,67,106,0.06)',
+            border: '1px solid rgba(240,67,106,0.25)',
+            color: 'rgba(240,67,106,0.7)',
+            borderRadius: '10px',
+            padding: '0 14px',
+            cursor: 'pointer',
+            fontSize: '11px',
+            fontFamily: 'Chakra Petch, sans-serif',
+            fontWeight: '600',
+            letterSpacing: '1.5px',
+            textTransform: 'uppercase',
+            transition: 'all 0.2s',
+            minWidth: '60px',
+          }}
+          onMouseEnter={e => {
+            e.target.style.background = 'rgba(240,67,106,0.15)';
+            e.target.style.borderColor = 'rgba(240,67,106,0.5)';
+            e.target.style.color = '#f0436a';
+          }}
+          onMouseLeave={e => {
+            e.target.style.background = 'rgba(240,67,106,0.06)';
+            e.target.style.borderColor = 'rgba(240,67,106,0.25)';
+            e.target.style.color = 'rgba(240,67,106,0.7)';
+          }}
         >
-          ล้าง Board
+          Reset
         </button>
       </div>
 
-      {/* Board */}
+      {/* ─── Board ─── */}
       <BoardGrid />
 
-      {/* Piece Slots (เลือกดูตัวที่สร้างแล้ว) */}
-      <div style={{ display: 'flex', gap: '10px' }}>
+      {/* ─── Section divider ─── */}
+      <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, #2a2545)' }} />
+        <span style={{ fontSize: '10px', color: '#6b6490', letterSpacing: '3px', fontFamily: 'Chakra Petch, sans-serif', textTransform: 'uppercase' }}>Piece Selection</span>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, #2a2545, transparent)' }} />
+      </div>
+
+      {/* ─── Piece Preview Slots ─── */}
+      <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
         {pieces.map((p, i) => (
           <PieceSlot key={i} piece={p} isSelected={selectedPieceIdx === i} onClick={() => setSelectedPiece(i)} />
         ))}
       </div>
 
-      {/* Piece Builders */}
-      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+      {/* ─── Section divider ─── */}
+      <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, #2a2545)' }} />
+        <span style={{ fontSize: '10px', color: '#6b6490', letterSpacing: '3px', fontFamily: 'Chakra Petch, sans-serif', textTransform: 'uppercase' }}>Draw Blocks</span>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, #2a2545, transparent)' }} />
+      </div>
+
+      {/* ─── Piece Builders ─── */}
+      <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
         {[0, 1, 2].map((i) => (
           <PieceBuilder key={i} pieceIdx={i} />
         ))}
       </div>
 
-      {/* Solver */}
-      <div style={{ width: 'min(380px, 95vw)' }}>
+      {/* ─── Section divider ─── */}
+      <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, #2a2545)' }} />
+        <span style={{ fontSize: '10px', color: '#6b6490', letterSpacing: '3px', fontFamily: 'Chakra Petch, sans-serif', textTransform: 'uppercase' }}>AI Solver</span>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, #2a2545, transparent)' }} />
+      </div>
+
+      {/* ─── Solver Panel ─── */}
+      <div style={{ width: '100%' }}>
         <SolverPanel />
       </div>
     </div>

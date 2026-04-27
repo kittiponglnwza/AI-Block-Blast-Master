@@ -1,4 +1,3 @@
-# AI Block Blast Master 
 
 # AI Block Blast Master — Project Structure
 
